@@ -22,6 +22,11 @@ FROM ${OSRM_IMAGE} AS osrm-build
 
 ARG PBF_URL
 
+# Base image is minimal Debian — no download tool included
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends wget ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /data
 
 # Download with retry, verify it's a valid PBF (magic bytes '0A0D0A'), then process:
