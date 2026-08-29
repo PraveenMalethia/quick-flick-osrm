@@ -54,9 +54,9 @@ COPY --from=osrm-build /data/ /data/
 
 ENV OSRM_DATA=/data/extract.osrm \
     OSRM_ALGORITHM=mld \
-    OSRM_PORT=5000
+    OSRM_PORT=3000
 
-EXPOSE 5000
+EXPOSE 3000
 
 # --algorithm mld is required for partitioned graphs (CH is the default)
 CMD ["sh", "-c", "osrm-routed --algorithm ${OSRM_ALGORITHM} --port ${OSRM_PORT} /data/extract.osrm"]
