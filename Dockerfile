@@ -36,7 +36,7 @@ WORKDIR /data
 RUN set -eux; \
     wget --tries=3 --timeout=60 -q "${PBF_URL}" -O /data/extract.osm.pbf; \
     test "$(stat -c%s /data/extract.osm.pbf)" -gt 100000000 || (echo "PBF too small — download corrupted" && exit 1); \
-    head -c 4 /data/extract.osm.pbf | od -An -tx1 | grep -q "0a 0d 0a" || (echo "Not a valid OSM PBF file" && exit 1); \
+    head -c 16 /data/extract.osm.pbf | od -An -c | grep -q "O   S   M   H" || (echo "Not a valid OSM PBF file" && exit 1); \
     osrm-extract -p /opt/car.lua /data/extract.osm.pbf; \
     osrm-partition /data/extract.osrm; \
     osrm-customize /data/extract.osrm; \
